@@ -8,3 +8,11 @@ Required:
 	type "airmon-ng start (name of managed mode card)" and type in "airmon-ng" to find out monitor mode card name.
 -Change the script based on your network card and desired location to save files.
 -For ethical testing only.
+
+
+How it works:
+	This will execute a series of aircrack commands. It will first place your wireless card in monitor mode to pick up 
+	wifi signals. Then it will assign a random MAC address to your wireless card. The program will then take in your 
+	targets information you provide. This will then restart the wireless card in the correct channel of your target, 
+	and attempt a deauthentication attack. If it is successful, you will see "handshake captured" in the right corner of 
+	the new terminal window. CTRL + C to quit. Your files should be saved in the location specified in the script.
