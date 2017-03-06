@@ -121,13 +121,13 @@ void gnome_terminal(string mac, string ch) {
 ***********************************************/
 void organize(string mac) {
 	string dir;
-	dir = "mv Key-01.cap /root/Scripts/KeyGrab/" + mac + "/";
+	dir = "mv Key-01.cap " + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.csv /root/Scripts/KeyGrab/" + mac + "/";
+	dir = "mv Key-01.csv " + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.kismet.csv /root/Scripts/KeyGrab/" + mac + "/";
+	dir = "mv Key-01.kismet.csv " + mac + "/";
 	system(dir.c_str());
-	dir = "mv Key-01.kismet.netxml /root/Scripts/KeyGrab/" + mac + "/";
+	dir = "mv Key-01.kismet.netxml " + mac + "/";
 	system(dir.c_str());
 }
 
@@ -182,5 +182,4 @@ string get_channel(string channel) {
 void closing() {
 	cout << string(5,'\n');
 	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning:$(tput sgr 0)\"");
-	system("cd ..");
 }
