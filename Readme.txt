@@ -1,6 +1,6 @@
 Required:
 	aircrack-ng
-	        tar xfz aircrack-ng-1.0-rc1.tar.g
+	        tar xfz aircrack-ng-1.0-rc1.tar.gz
 		cd aircrack-ng-1.0-rc1
 		make 
 		make install
