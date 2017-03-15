@@ -129,6 +129,10 @@ void organize(string mac) {
 	system(dir.c_str());
 	dir = "mv Key-01.kismet.netxml " + mac + "/";
 	system(dir.c_str());
+	dir = "aircrack-ng -J Key-01 Key-01.cap"; //creates hccap file for Hashcat bruteforcing
+	system(dir.c_str());
+	dir = "mov Key-01.hccap " + mac + "/";
+	system(dir.c_str());
 }
 
 
@@ -142,7 +146,15 @@ void organize(string mac) {
 *			   prompts for bssid, returns it               
 ***********************************************/
 string get_bssid(string bssid) {
-	cout << "Starting..." << endl;
+	system("clear");
+	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 5)$(tput bold)|    K E Y G R A B    |$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
+	cout << string(2, '\n');
+	cout << "Launching..." << endl;
+	system("sleep 2");
 	system ("airmon-ng start wlan0");
 	randomize();
 	system ("airodump-ng wlan0mon");
