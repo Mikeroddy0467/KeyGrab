@@ -1,9 +1,6 @@
 Required:
 	aircrack-ng
-	        tar xfz aircrack-ng-1.0-rc1.tar.gz
-		cd aircrack-ng-1.0-rc1
-		make 
-		make install
+	        
 		
 	macchanger
 	        sudo apt-get install macchanger macchanger-gtk
