@@ -1,8 +1,9 @@
 Required:
-	aircrack-ng
-	        
+	aircrack-ng install command:
+	        sudo apt-get install aircrack-ng
 		
-	macchanger
+		
+	macchanger install command:
 	        sudo apt-get install macchanger macchanger-gtk
 		
 	*kali linux comes with these installed.
