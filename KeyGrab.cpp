@@ -121,6 +121,10 @@ void gnome_terminal(string mac, string ch) {
 ***********************************************/
 void organize(string mac) {
 	string dir;
+	dir = "aircrack-ng -J Key-01 Key-01.cap"; //creates hccap file for Hashcat bruteforcing
+	system(dir.c_str());
+	dir = "mv Key-01.hccap " + mac + "/";
+	system(dir.c_str());
 	dir = "mv Key-01.cap " + mac + "/";
 	system(dir.c_str());
 	dir = "mv Key-01.csv " + mac + "/";
@@ -128,10 +132,6 @@ void organize(string mac) {
 	dir = "mv Key-01.kismet.csv " + mac + "/";
 	system(dir.c_str());
 	dir = "mv Key-01.kismet.netxml " + mac + "/";
-	system(dir.c_str());
-	dir = "aircrack-ng -J Key-01 Key-01.cap"; //creates hccap file for Hashcat bruteforcing
-	system(dir.c_str());
-	dir = "mov Key-01.hccap " + mac + "/";
 	system(dir.c_str());
 }
 
