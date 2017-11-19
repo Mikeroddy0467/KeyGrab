@@ -1,12 +1,8 @@
 Required:
-	aircrack-ng install command:
-	        sudo apt-get install aircrack-ng
-		
-		
-	macchanger install command:
-	        sudo apt-get install macchanger macchanger-gtk
-		
+	aircrack-ng
+	macchanger
 	*kali linux comes with these installed.
+	
 -Your wireless card will need to be able to use packet injection and "monitor mode" in order to run successfully. 
 -My wireless card is named wlan0mon in monitor mode and wlan0 in managed mode.
 	type "airmon-ng" in console to find out managed mode card name.
