@@ -209,8 +209,8 @@ void intro() {
 	cout << "Install/Update? (Y/N):  ";
 	cin >> choice;
 	if ((choice == "y") || (choice == "Y")) {
-		system("apt-get install aircrack-ng");
-		system("apt-get install macchanger");
+		system("sudo apt-get install aircrack-ng");
+		system("sudo apt-get install macchanger");
 	}
 	cout << string(2, '\n');
 	cout << "Launching..." << endl;
