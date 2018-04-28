@@ -1,11 +1,11 @@
 # KeyGrab
 
 ## Introduction
-**DO NOT USE ON SYSTEMS WITHOUT EXPLICIT PERMISSION
+**DO NOT USE ON SYSTEMS WITHOUT EXPLICIT PERMISSION**
 > KeyGrab is a program designed for experienced users to automate WiFi testing. Similar programs do not save the files you intercept, and begin attempting to check against wordlists. This is a problem when running these on under-powered systems or laptops.
 
 
->KeyGrab collects capture files, converts them into hccapx files, and organizes them in folders. These can then be used in conjunction with programs like Hashcat to crack the handshake files.
+> KeyGrab collects capture files, converts them into hccapx files, and organizes them in folders. These can then be used in conjunction with programs like Hashcat to crack the handshake files.
 
 ## Installation
 
@@ -13,4 +13,4 @@
 
 > Simply run "make". This will create executables and let you run KeyGrab as well as the capture conversion tool made by the Hashcat developers.
 
->Run "./KeyGrab" to get started. Use ctrl+c to step through when needed.
+> Run "./KeyGrab" to get started. Use ctrl+c to step through when needed.
