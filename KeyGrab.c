@@ -378,7 +378,7 @@ void organize() {
 	strcat(cmd, directory);
 	strcat(cmd, " >>/dev/null");	//background
 	system(cmd);
-	strcpy(cmd, "./cap2hccapx Key-01.cap ");
+	strcpy(cmd, "./hashcat-utils/cap2hccapx Key-01.cap ");
 	strcat(cmd, directory);
 	strcat(cmd, "/Key-01.hccapx");
 	strcat(cmd, " >>/dev/null");	//background
