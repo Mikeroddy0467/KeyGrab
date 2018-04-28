@@ -1,19 +1,16 @@
-Required:
-	aircrack-ng
-	macchanger
-	*kali linux comes with these installed.
-	
--Your wireless card will need to be able to use packet injection and "monitor mode" in order to run successfully. 
--My wireless card is named wlan0mon in monitor mode and wlan0 in managed mode.
-	type "airmon-ng" in console to find out managed mode card name.
-	type "airmon-ng start (name of managed mode card)" and type in "airmon-ng" to find out monitor mode card name.
--Change the script based on your network card and desired location to save files.
--For ethical testing only.
+# KeyGrab
+
+## Introduction
+**DO NOT USE ON SYSTEMS WITHOUT EXPLICIT PERMISSION
+> KeyGrab is a program designed for experienced users to automate WiFi testing. Similar programs do not save the files you intercept, and begin attempting to check against wordlists. This is a problem when running these on under-powered systems or laptops.
 
 
-How it works:
-	This will execute a series of aircrack commands. It will first place your wireless card in monitor mode to pick up 
-	wifi signals. Then it will assign a random MAC address to your wireless card. The program will then take in your 
-	targets information you provide. This will then restart the wireless card in the correct channel of your target, 
-	and attempt a deauthentication attack. If it is successful, you will see "handshake captured" in the right corner of 
-	the new terminal window. CTRL + C to quit. Your files should be saved in the location specified in the script.
+>KeyGrab collects capture files, converts them into hccapx files, and organizes them in folders. These can then be used in conjunction with programs like Hashcat to crack the handshake files.
+
+## Installation
+
+> Check the source code! KeyGrab.c will contain macros specific to my system. They might work on others, however, I can't test them all. This is extremely easy to make compatible. Just change the macros up top to your wireless card info.
+
+> Simply run "make". This will create executables and let you run KeyGrab as well as the capture conversion tool made by the Hashcat developers.
+
+>Run "./KeyGrab" to get started. Use ctrl+c to step through when needed.
