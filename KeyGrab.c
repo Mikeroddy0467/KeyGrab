@@ -57,6 +57,7 @@ int main() {
 	}
 	else {
 		printf("Running as Root: \e[1;31m \tNO \e[0m\n");
+		clean();
 		error();
 		return 0;
 	}
@@ -72,6 +73,7 @@ int main() {
 	}
 	else {
 		printf("Spoofed MAC: \e[1;31m \t\tNO!!! \e[0m\n");
+		clean();
 		error();
 		return 0;
 	}
